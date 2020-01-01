@@ -1,0 +1,126 @@
+package com.elibrary.login.password.retrieve;
+import java.sql.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+
+public class NewPasswordServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private String url = "jdbc:mysql://localhost:3306/userDB";
+	private String user = "root";
+	private String password ="";
+	Connection con=null;
+   Statement st=null;
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		// step 1 register driver
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("class Not found");
+		}
+		// step 2:create connection
+		try {
+			con = DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) {
+			System.out.println("driver manager exception");
+		}
+		// step 3: create a statement
+
+				try {
+					st = con.createStatement();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String np=request.getParameter("nPassword");
+		String rp=request.getParameter("rPassword");
+		PrintWriter out = response.getWriter();
+		RequestDispatcher rd=null;
+		String updatesql="update tUser set Password='";
+		//out.print((String)request.getAttribute("email1"));
+		
+			try {
+				//DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+				//con = DriverManager.getConnection(url, user, password);
+				//PreparedStatement ust = con.prepareStatement(usersql);
+				if(np!="" && rp!=""){
+					if(np.compareTo(rp)==0){
+						updatesql=updatesql+np+"' where Email_ID='"+(String)request.getParameter("e")+"'";
+				st.executeUpdate(updatesql);
+				rd=request.getRequestDispatcher("/login.jsp");
+				request.setAttribute("msg","Your password has been changed.");
+				rd.forward(request, response);}
+					else{rd=request.getRequestDispatcher("/newPassword.jsp");
+						request.setAttribute("error9","Password mismatch");
+					rd.forward(request, response);}}
+					else{
+						rd=request.getRequestDispatcher("/newPassword.jsp");
+						request.setAttribute("error10","Fill up all the required fields");
+						rd.forward(request, response);
+					}
+				
+					
+				}
+				
+				
+				//else
+					///out.print(id+" is logged in");
+					
+				/* *if(id!=null)
+				{
+					String passsql="select Password from tUser where UserName='"+id+"'";
+					//PreparedStatement pst = con.prepareStatement(passsql);
+					rs=st.executeQuery(passsql);
+					if(){
+					//out.print("logged in");
+						rd=request.getRequestDispatcher("/signUp.jsp");
+		            rd.forward(request,response); 
+					}	
+					else 
+						out.print("error");}
+				else
+					out.print("error");*/
+				
+			 catch (SQLException e) {
+				// TODO Auto-generated catch block
+				 
+				e.printStackTrace();
+			}catch(Exception e){
+				
+				e.printStackTrace();
+			}	   
+			
+		
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	public void destroy() {
+		// TODO Auto-generated method stub
+		try {
+			con.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+
+}

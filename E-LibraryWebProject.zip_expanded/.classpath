@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="E-LibraryWebProject/src"/>
+	<classpathentry kind="lib" path="E-LibraryWebProject/WebContent/WEB-INF/lib/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="lib" path="E-LibraryWebProject/WebContent/WEB-INF/lib/j2ee.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="output" path="E-LibraryWebProject/build/classes"/>
+</classpath>
